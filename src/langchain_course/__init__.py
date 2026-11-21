@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
+from langchain_ollama import ChatOllama
 import os
 load_dotenv()
 
@@ -17,6 +18,11 @@ Bose was born into wealth and privilege in a large Bengali family in Orissa duri
     2. two interesting facts about them
     """
     summary_prompt_template = PromptTemplate(input_variables=[information],template=summary_template)
-    
+    llm = ChatOllama(temperature=0,model="gemma3:latest")
+    chain = summary_prompt_template | llm
+    responce = chain.invoke(input=information)
+    print(responce.content)
     
 main()
+
+
